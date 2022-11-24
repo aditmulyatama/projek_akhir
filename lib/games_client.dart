@@ -13,6 +13,13 @@ class GamesListClient {
       games.add(Games.fromJson(element));
     });
 
+    return games;
+  }
+
+  static void debugPrint(String value) {
+    print("[BASE_NETWORK] - $value");
+  }
+}
     // for (var g in jsonData) {
     //   Games game = Games(
     //     id: g['id'],
@@ -29,11 +36,3 @@ class GamesListClient {
     //   );
     //   games.add(game);
     // }
-
-    return games;
-  }
-
-  static void debugPrint(String value) {
-    print("[BASE_NETWORK] - $value");
-  }
-}
