@@ -58,7 +58,7 @@ class _GamesListState extends State<GamesList> {
     );
   }
 
-  Widget _buildSuccessSection(List<Games> games) {
+  Widget _buildSuccessSection(List<dynamic> games) {
     return GridView.builder(
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -108,7 +108,7 @@ class _GamesListState extends State<GamesList> {
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.calendar_month_outlined,
                             size: 15,
                           ),

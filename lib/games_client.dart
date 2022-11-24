@@ -6,13 +6,13 @@ import 'package:projek_akhir/model/games_model.dart';
 class GamesListClient {
   static const String baseUrl = "https://www.freetogame.com/api";
 
-  Future<List<Games>> getGames() async {
+  Future<List<dynamic>> getGames() async {
     var response = await http.get(Uri.parse("$baseUrl/games"));
-    List<Games> games = [];
+    List<dynamic> games = [];
     (jsonDecode(response.body)).forEach((element) {
       games.add(Games.fromJson(element));
     });
-
+    debugPrint(response.body);
     return games;
   }
 
