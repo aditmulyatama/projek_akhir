@@ -54,7 +54,7 @@ class _GameDetailsState extends State<GameDetails> {
       children: [
         Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height / 4,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
@@ -75,27 +75,28 @@ class _GameDetailsState extends State<GameDetails> {
             //   fit: BoxFit.fill,
             //   width: MediaQuery.of(context).size.width,
             // ),
-            Divider(
+            const Divider(
               color: Colors.transparent,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     '${games.title}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w900),
                   ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -113,7 +114,7 @@ class _GameDetailsState extends State<GameDetails> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -121,7 +122,7 @@ class _GameDetailsState extends State<GameDetails> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -138,18 +139,18 @@ class _GameDetailsState extends State<GameDetails> {
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent,
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontStyle: FontStyle.italic,
                         )),
-                    child: Text(
+                    child: const Text(
                       "Press Here",
-                      style: const TextStyle(
+                      style: TextStyle(
                         height: 1.5,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -157,7 +158,7 @@ class _GameDetailsState extends State<GameDetails> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -175,7 +176,7 @@ class _GameDetailsState extends State<GameDetails> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -183,7 +184,7 @@ class _GameDetailsState extends State<GameDetails> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -201,7 +202,7 @@ class _GameDetailsState extends State<GameDetails> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -209,7 +210,7 @@ class _GameDetailsState extends State<GameDetails> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -227,7 +228,7 @@ class _GameDetailsState extends State<GameDetails> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                 ],
@@ -235,7 +236,7 @@ class _GameDetailsState extends State<GameDetails> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -253,66 +254,73 @@ class _GameDetailsState extends State<GameDetails> {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 14,
                   ),
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Minimum Systems Requirements ",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+            if (games.minimumSystemRequirements?.os != null)
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Minimum Systems Requirements ",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "OS : ${games.minimumSystemRequirements?.os}",
-                    style: const TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.normal,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "OS : ${games.minimumSystemRequirements?.os}",
+                          style: const TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          "Processor : ${games.minimumSystemRequirements?.processor}",
+                          style: const TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          "Memory : ${games.minimumSystemRequirements?.memory}",
+                          style: const TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          "Graphics : ${games.minimumSystemRequirements?.graphics}",
+                          style: const TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          "Graphics : ${games.minimumSystemRequirements?.storage}",
+                          style: const TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Text(
-                    "Processor : ${games.minimumSystemRequirements?.processor}",
-                    style: const TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.normal,
+                    const SizedBox(
+                      height: 15,
                     ),
-                  ),
-                  Text(
-                    "Memory : ${games.minimumSystemRequirements?.memory}",
-                    style: const TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  Text(
-                    "Graphics : ${games.minimumSystemRequirements?.graphics}",
-                    style: const TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  Text(
-                    "Graphics : ${games.minimumSystemRequirements?.storage}",
-                    style: const TextStyle(
-                      height: 1.5,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ],

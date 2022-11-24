@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:projek_akhir/login_page.dart';
 import 'package:projek_akhir/model/games_model.dart';
 import 'package:projek_akhir/games_client.dart';
 import 'package:projek_akhir/screens/game_details.dart';
+import 'package:projek_akhir/useful_widgets.dart';
 
 class GamesList extends StatefulWidget {
   const GamesList({Key? key}) : super(key: key);
@@ -25,24 +29,37 @@ class _GamesListState extends State<GamesList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Games List"),
-        backgroundColor: Colors.black54,
-      ),
+          automaticallyImplyLeading: false,
+          title: const Text("Games List"),
+          backgroundColor: Colors.black54,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                FirebaseAuth.instance.signOut().then((value) {
+                  showNotification(context, "Sign Out Success", false);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
+                });
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ]),
       body: SafeArea(
-        child: Container(
-          child: FutureBuilder(
-            future: _gamesList.getGames(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                debugPrint(snapshot.error.toString());
-                return _buildErrorSection();
-              }
-              if (snapshot.hasData) {
-                return _buildSuccessSection(snapshot.data!);
-              }
-              return _buildLoadingSection();
-            },
-          ),
+        child: FutureBuilder(
+          future: _gamesList.getGames(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint(snapshot.error.toString());
+              return _buildErrorSection();
+            }
+            if (snapshot.hasData) {
+              return _buildSuccessSection(snapshot.data!);
+            }
+            return _buildLoadingSection();
+          },
         ),
       ),
     );
@@ -58,7 +75,7 @@ class _GamesListState extends State<GamesList> {
     );
   }
 
-  Widget _buildSuccessSection(List<dynamic> games) {
+  Widget _buildSuccessSection(List<Games> games) {
     return GridView.builder(
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -103,7 +120,7 @@ class _GamesListState extends State<GamesList> {
                                 : Icons.phone_android,
                             size: 15,
                           ),
-                          Text('${games[i].platform}'),
+                          Flexible(child: Text('${games[i].platform}')),
                         ],
                       ),
                       Row(

@@ -29,6 +29,13 @@
             {
               "client_id": "505961183988-eue67fmp1aq3n6l4he4hooo0au6q9i80.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "505961183988-90jj1vqfblcesfbd0emfo85iitsjnreo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.projekAkhir"
+              }
             }
           ]
         }
