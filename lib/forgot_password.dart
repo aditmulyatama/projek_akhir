@@ -1,16 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'useful_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
@@ -22,7 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          "Sign Up",
+          "Forgot Password",
           style: TextStyle(color: Colors.black87),
         ),
       ),
@@ -43,19 +43,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                textField("Enter your password", true, Icons.password,
-                    _passwordController),
-                const SizedBox(
-                  height: 15,
-                ),
-                usefulButton(context, "Sign Up", () {
+                usefulButton(context, "Sent Email", () {
                   FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: _emailController.text,
-                          password: _passwordController.text)
+                      .sendPasswordResetEmail(
+                    email: _emailController.text,
+                  )
                       .then((value) {
-                    showNotification(
-                        context, "New account has been signed up", false);
+                    showNotification(context,
+                        "Password reset link sent! Check your email", false);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

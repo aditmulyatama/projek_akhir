@@ -5,7 +5,7 @@ import 'package:projek_akhir/model/games_model.dart';
 class GamesListClient {
   static const String baseUrl = "https://www.freetogame.com/api";
 
-  Future<List<Games>> getGames() async {
+  Future<List<Games>> getGames({String? titleSearch}) async {
     var response = await http.get(Uri.parse("$baseUrl/games"));
     var jsonData = jsonDecode(response.body);
     List<Games> games = [];
@@ -13,6 +13,12 @@ class GamesListClient {
     for (var element in jsonData) {
       // debugPrint(element.toString());
       games.add(Games.fromJson(element));
+    }
+    if (titleSearch != null) {
+      games = games
+          .where((element) =>
+              element.title!.toLowerCase().contains(titleSearch.toLowerCase()))
+          .toList();
     }
     // debugPrint(response.body);
     return games;

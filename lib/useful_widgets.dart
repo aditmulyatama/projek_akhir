@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:projek_akhir/login_page.dart';
 
 Widget textField(String text, bool isPasswordType, IconData icon,
     TextEditingController controller) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 25),
-    child: TextField(
+    child: TextFormField(
+      validator: (value) => value!.isEmpty ? 'Field cannot be blank' : null,
       controller: controller,
       obscureText: isPasswordType,
       enableSuggestions: !isPasswordType,
@@ -31,7 +33,7 @@ Widget textField(String text, bool isPasswordType, IconData icon,
   );
 }
 
-Widget usefulButton(BuildContext context, bool isLogin, Function onTap) {
+Widget usefulButton(BuildContext context, String text, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width / 2,
     height: 50,
@@ -51,7 +53,7 @@ Widget usefulButton(BuildContext context, bool isLogin, Function onTap) {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
       child: Text(
-        isLogin ? "LOGIN" : "SIGN UP",
+        text,
         style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
       ),

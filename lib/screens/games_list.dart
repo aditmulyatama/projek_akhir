@@ -15,6 +15,7 @@ class GamesList extends StatefulWidget {
 }
 
 class _GamesListState extends State<GamesList> {
+  String? query;
   final GamesListClient _gamesList = GamesListClient();
   // late Future<List<Games>> games;
 
@@ -49,7 +50,7 @@ class _GamesListState extends State<GamesList> {
           ]),
       body: SafeArea(
         child: FutureBuilder(
-          future: _gamesList.getGames(),
+          future: _gamesList.getGames(titleSearch: query),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint(snapshot.error.toString());
@@ -76,69 +77,92 @@ class _GamesListState extends State<GamesList> {
   }
 
   Widget _buildSuccessSection(List<Games> games) {
-    return GridView.builder(
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: games.length,
-        itemBuilder: (context, i) {
-          return InkWell(
-            onTap: () =>
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return GameDetails(
-                id: games[i].id!,
-                title: games[i].title!,
-              );
-            })),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 1000,
-              child: Card(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.network("${games[i].thumbnail}"),
-                      Text(
-                        '${games[i].title}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+    var seen = Set<String>();
+    List<dynamic> uniqueGenre =
+        games.where((element) => seen.add(element.genre.toString())).toList();
+    print(uniqueGenre.length);
+    for (var i = 0; i < uniqueGenre.length; i++) {
+      print(uniqueGenre[i].genre);
+    }
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+              decoration: InputDecoration(
+                  labelText: "Search games", suffixIcon: Icon(Icons.search)),
+              onChanged: (value) => setState(() {
+                    query = value;
+                  })),
+        ),
+        Expanded(
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              itemCount: games.length,
+              itemBuilder: (context, i) {
+                return InkWell(
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                    return GameDetails(
+                      id: games[i].id!,
+                      title: games[i].title!,
+                    );
+                  })),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 1000,
+                    child: Card(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.network("${games[i].thumbnail}"),
+                            Text(
+                              '${games[i].title}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.gamepad,
+                                  size: 15,
+                                ),
+                                Text('${games[i].genre}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  games[i].platform == 'PC (Windows)'
+                                      ? Icons.computer_outlined
+                                      : Icons.phone_android,
+                                  size: 15,
+                                ),
+                                Flexible(child: Text('${games[i].platform}')),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_month_outlined,
+                                  size: 15,
+                                ),
+                                Text('${games[i].releaseDate}',
+                                    textAlign: TextAlign.end),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.gamepad,
-                            size: 15,
-                          ),
-                          Text('${games[i].genre}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            games[i].platform == 'PC (Windows)'
-                                ? Icons.computer_outlined
-                                : Icons.phone_android,
-                            size: 15,
-                          ),
-                          Flexible(child: Text('${games[i].platform}')),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_month_outlined,
-                            size: 15,
-                          ),
-                          Text('${games[i].releaseDate}',
-                              textAlign: TextAlign.end),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          );
-        });
+                );
+              }),
+        ),
+      ],
+    );
   }
 }

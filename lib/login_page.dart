@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:projek_akhir/forgot_password.dart';
 import 'package:projek_akhir/screens/games_list.dart';
 import 'package:projek_akhir/signup_page.dart';
 import 'package:projek_akhir/useful_widgets.dart';
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 15,
               ),
-              usefulButton(context, true, () {
+              usefulButton(context, "Login", () {
                 FirebaseAuth.instance
                     .signInWithEmailAndPassword(
                         email: _emailController.text,
@@ -60,6 +61,10 @@ class _LoginPageState extends State<LoginPage> {
                 });
               }),
               signUpOption(),
+              SizedBox(
+                height: 15,
+              ),
+              forgotPassword(),
             ],
           ),
         ),
@@ -84,6 +89,33 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: const Text(
             "Sign Up",
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget forgotPassword() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          "Forgot your password? ",
+          style: TextStyle(color: Colors.black87),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => const ForgotPassword()));
+          },
+          child: const Text(
+            "Click here",
             style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.bold,
