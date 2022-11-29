@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projek_akhir/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Widget textField(String text, bool isPasswordType, IconData icon,
     TextEditingController controller) {
@@ -62,8 +62,42 @@ Widget usefulButton(BuildContext context, String text, Function onTap) {
 }
 
 void showNotification(BuildContext context, String message, bool isError) {
+  switch (message) {
+    case "email-already-in-use":
+      message = "Email already used. Go to login page.";
+      break;
+
+    case "wrong-password":
+      message = "Wrong email/password combination.";
+      break;
+
+    case "user-not-found":
+      message = "No user found with this email.";
+      break;
+
+    case "user-disabled":
+      message = "User disabled.";
+      break;
+
+    case "operation-not-allowed":
+      message = "Too many requests to log into this account.";
+      break;
+
+    case "operation-not-allowed":
+      message = "Server error, please try again later.";
+      break;
+
+    case "invalid-email":
+      message = "Email address is invalid.";
+      break;
+    default:
+      message = message;
+      break;
+  }
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     backgroundColor: isError ? Colors.redAccent : Colors.green,
     content: Text(message.toString()),
+    behavior: SnackBarBehavior.fixed,
+    duration: Duration(milliseconds: 600),
   ));
 }

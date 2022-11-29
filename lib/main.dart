@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projek_akhir/login_page.dart';
+import 'package:projek_akhir/screens/main_screen.dart';
 import 'screens/games_list.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.userChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return const GamesList();
+              return const MainScreen();
             } else {
               return const LoginPage();
             }

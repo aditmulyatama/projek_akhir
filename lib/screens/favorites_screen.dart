@@ -1,32 +1,37 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:projek_akhir/login_page.dart';
-import 'package:projek_akhir/model/games_model.dart';
-import 'package:projek_akhir/games_client.dart';
-import 'package:projek_akhir/screens/game_details.dart';
-import 'package:projek_akhir/useful_widgets.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:http/http.dart' as http;
+import 'package:projek_akhir/favorites_client.dart';
 
-class GamesList extends StatefulWidget {
-  const GamesList({Key? key}) : super(key: key);
+import '../games_client.dart';
+import '../login_page.dart';
+import '../model/games_model.dart';
+import '../useful_widgets.dart';
+import 'game_details.dart';
+
+class FavoriteScreens extends StatefulWidget {
+  const FavoriteScreens({super.key});
 
   @override
-  State<GamesList> createState() => _GamesListState();
+  State<FavoriteScreens> createState() => _FavoriteScreensState();
 }
 
-class _GamesListState extends State<GamesList> {
+class _FavoriteScreensState extends State<FavoriteScreens> {
   String? query;
+  String? key;
+  int? length;
   String? genreFilter;
   final GamesListClient _gamesList = GamesListClient();
-  Uri url = Uri.parse(
-      "https://belajarfirebase-b3d4f-default-rtdb.asia-southeast1.firebasedatabase.app/favorites.json");
+  final FavoritesGamesClient _favClient = FavoritesGamesClient();
   // late Future<List<Games>> games;
 
   @override
   void initState() {
+    length = 0;
     // Agent list
     // games = _gamesList.getGames();
     super.initState();
@@ -37,7 +42,7 @@ class _GamesListState extends State<GamesList> {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Games List"),
+          title: const Text("Favorites games"),
           backgroundColor: Colors.black54,
           actions: [
             IconButton(
@@ -54,25 +59,34 @@ class _GamesListState extends State<GamesList> {
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
           ]),
-      body: FutureBuilder(
-        future:
-            _gamesList.getGames(titleSearch: query, genreSearch: genreFilter),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            debugPrint(snapshot.error.toString());
-            return _buildErrorSection();
-          }
-          if (snapshot.hasData) {
-            return _buildSuccessSection(snapshot.data!);
-          }
-          return _buildLoadingSection();
-        },
+      body: SafeArea(
+        child: FutureBuilder(
+          future: _favClient.getFavorites(
+              titleSearch: query, key: key, genreSearch: genreFilter),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint(snapshot.error.toString());
+              return _buildErrorSection();
+            }
+            if (snapshot.hasData) {
+              return _buildSuccessSection(snapshot.data!);
+            }
+            return _buildLoadingSection();
+          },
+        ),
       ),
     );
   }
 
   Widget _buildErrorSection() {
-    return const Text("Error");
+    return Center(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(
+          "There is no favorite games",
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        )
+      ]),
+    );
   }
 
   Widget _buildLoadingSection() {
@@ -100,9 +114,10 @@ class _GamesListState extends State<GamesList> {
       "Social",
       "Fantasy"
     ];
+
     print(uniqueGenre.length);
     for (var i = 0; i < uniqueGenre.length; i++) {
-      // print(uniqueGenre[i].genre);
+      print(uniqueGenre[i]);
     }
     return Column(
       children: [
@@ -217,16 +232,15 @@ class _GamesListState extends State<GamesList> {
                       alignment: Alignment.bottomRight,
                       child: IconButton(
                         onPressed: () {
-                          http
-                              .post(url, body: jsonEncode(games[i]))
-                              .then((value) {
-                            showNotification(
-                                context,
-                                "Berhasil menambahkan ${games[i].title} ke favorite",
-                                false);
+                          showNotification(
+                              context,
+                              "Berhasil menghapus ${games[i].title} dari favorite",
+                              false);
+                          setState(() {
+                            key = games[i].key;
                           });
                         },
-                        icon: Icon(Icons.bookmark_add),
+                        icon: Icon(Icons.delete),
                         color: Colors.redAccent,
                       ),
                     )

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projek_akhir/forgot_password.dart';
 import 'package:projek_akhir/screens/games_list.dart';
+import 'package:projek_akhir/screens/main_screen.dart';
 import 'package:projek_akhir/signup_page.dart';
 import 'package:projek_akhir/useful_widgets.dart';
 
@@ -55,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const GamesList()));
+                          builder: (context) => const MainScreen()));
                 }).onError((error, stackTrace) {
                   showNotification(context, error.toString(), true);
                 });

@@ -10,20 +10,21 @@ class Games {
   final String? developer;
   final String? releaseDate;
   final String? freetogameProfileUrl;
+  final String? key;
 
-  Games({
-    this.id,
-    this.title,
-    this.thumbnail,
-    this.shortDescription,
-    this.gameUrl,
-    this.genre,
-    this.platform,
-    this.publisher,
-    this.developer,
-    this.releaseDate,
-    this.freetogameProfileUrl,
-  });
+  Games(
+      {this.id,
+      this.title,
+      this.thumbnail,
+      this.shortDescription,
+      this.gameUrl,
+      this.genre,
+      this.platform,
+      this.publisher,
+      this.developer,
+      this.releaseDate,
+      this.freetogameProfileUrl,
+      this.key});
 
   Games.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
@@ -36,7 +37,8 @@ class Games {
         publisher = json['publisher'] as String?,
         developer = json['developer'] as String?,
         releaseDate = json['release_date'] as String?,
-        freetogameProfileUrl = json['freetogame_profile_url'] as String?;
+        freetogameProfileUrl = json['freetogame_profile_url'] as String?,
+        key = json['key'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
