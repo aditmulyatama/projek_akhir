@@ -55,8 +55,7 @@ class _GamesListState extends State<GamesList> {
             ),
           ]),
       body: FutureBuilder(
-        future:
-            _gamesList.getGames(titleSearch: query, genreSearch: genreFilter),
+        future: _gamesList.getGames(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             debugPrint(snapshot.error.toString());
@@ -82,6 +81,25 @@ class _GamesListState extends State<GamesList> {
   }
 
   Widget _buildSuccessSection(List<Games> games) {
+    // Games search
+    if (query != null) {
+      games = games
+          .where((element) =>
+              element.title!.toLowerCase().contains(query!.toLowerCase()))
+          .toList();
+    }
+
+// Games genre filter
+    if (genreFilter != null) {
+      if (genreFilter != "All") {
+        games = games
+            .where((element) => element.genre!
+                .toLowerCase()
+                .contains(genreFilter!.toLowerCase()))
+            .toList();
+      }
+    }
+
     List<String> uniqueGenre = [
       "All",
       "Shooter",

@@ -62,7 +62,8 @@ class _FavoriteScreensState extends State<FavoriteScreens> {
       body: SafeArea(
         child: FutureBuilder(
           future: _favClient.getFavorites(
-              titleSearch: query, key: key, genreSearch: genreFilter),
+            key: key,
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint(snapshot.error.toString());
@@ -96,6 +97,25 @@ class _FavoriteScreensState extends State<FavoriteScreens> {
   }
 
   Widget _buildSuccessSection(List<Games> games) {
+    // Games search
+    if (query != null) {
+      games = games
+          .where((element) =>
+              element.title!.toLowerCase().contains(query!.toLowerCase()))
+          .toList();
+    }
+
+// Games genre filter
+    if (genreFilter != null) {
+      if (genreFilter != "All") {
+        games = games
+            .where((element) => element.genre!
+                .toLowerCase()
+                .contains(genreFilter!.toLowerCase()))
+            .toList();
+      }
+    }
+
     List<String> uniqueGenre = [
       "All",
       "Shooter",

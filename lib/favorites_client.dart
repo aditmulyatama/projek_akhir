@@ -28,27 +28,29 @@ class FavoritesGamesClient {
           thumbnail: value['thumbnail'],
           title: value['title']));
     });
-    if (titleSearch != null) {
-      games = games
-          .where((element) =>
-              element.title!.toLowerCase().contains(titleSearch.toLowerCase()))
-          .toList();
-    }
     if (key != null) {
       Uri url = Uri.parse(
           "https://belajarfirebase-b3d4f-default-rtdb.asia-southeast1.firebasedatabase.app/favorites/${key}.json");
       http.delete(url).then((value) => null);
       games.removeWhere((element) => element.key == key);
     }
-    if (genreSearch != null) {
-      if (genreSearch != "All") {
-        games = games
-            .where((element) => element.genre!
-                .toLowerCase()
-                .contains(genreSearch.toLowerCase()))
-            .toList();
-      }
-    }
+
+    // if (titleSearch != null) {
+    //   games = games
+    //       .where((element) =>
+    //           element.title!.toLowerCase().contains(titleSearch.toLowerCase()))
+    //       .toList();
+    // }
+
+    // if (genreSearch != null) {
+    //   if (genreSearch != "All") {
+    //     games = games
+    //         .where((element) => element.genre!
+    //             .toLowerCase()
+    //             .contains(genreSearch.toLowerCase()))
+    //         .toList();
+    //   }
+    // }
     return games;
     // debugPrint(response.body);
   }

@@ -16,22 +16,22 @@ class GamesListClient {
       games.add(Games.fromJson(element));
     }
 
-    if (titleSearch != null) {
-      games = games
-          .where((element) =>
-              element.title!.toLowerCase().contains(titleSearch.toLowerCase()))
-          .toList();
-    }
+    // if (titleSearch != null) {
+    //   games = games
+    //       .where((element) =>
+    //           element.title!.toLowerCase().contains(titleSearch.toLowerCase()))
+    //       .toList();
+    // }
 
-    if (genreSearch != null) {
-      if (genreSearch != "All") {
-        games = games
-            .where((element) => element.genre!
-                .toLowerCase()
-                .contains(genreSearch.toLowerCase()))
-            .toList();
-      }
-    }
+    // if (genreSearch != null) {
+    //   if (genreSearch != "All") {
+    //     games = games
+    //         .where((element) => element.genre!
+    //             .toLowerCase()
+    //             .contains(genreSearch.toLowerCase()))
+    //         .toList();
+    //   }
+    // }
     return games;
     // debugPrint(response.body);
   }
